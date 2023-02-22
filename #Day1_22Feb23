@@ -1,0 +1,38 @@
+1769. Minimum Number of Operations to Move All Balls to Each Box
+
+https://leetcode.com/problems/minimum-number-of-operations-to-move-all-balls-to-each-box/description/
+
+`class Solution {
+public int[] minOperations(String boxes) {
+int n = boxes.length();
+int[] left = new int[n];
+int[] right = new int[n];
+int[] ans = new int[n];
+
+//using prefix sum of count of zero and one from left to right and right to left
+//algo
+//track from left: How much of shifts you need to calculate all ones from the given index.
+//do the same from right.
+//return the sum of both tracks
+
+int cnt = boxes.charAt(0) - '0';
+//as there is no balls at 0th index of its left index so left[0] = 0;
+for(int i=1; i<n; i++){
+left[i] = left[i-1] + cnt;
+cnt += boxes.charAt(i) - '0';
+}
+
+cnt = boxes.charAt(n-1) - '0';
+//as there is no balls at n-1th index of its right index so right[n-1] = 0;
+for(int i=n-2; i>=0; i--){
+right[i] = right[i+1] + cnt;
+cnt += boxes.charAt(i) - '0';
+}
+
+for(int i=0; i<n; i++){
+ans[i] = left[i] + right[i];
+//System.out.println(left[i]+" "+right[i]);
+}
+return ans;
+}
+}`
